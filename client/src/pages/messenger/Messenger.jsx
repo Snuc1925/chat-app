@@ -14,28 +14,58 @@ export default function Messenger() {
     const [currentChat, setCurrentChat] = useState(null);
     const socket = useRef();
     const { user } = useContext(AuthContext);
+    const scrollRef = useRef();
     
-    // useEffect(() => {
-    //     socket.current = io("ws://localhost:8900");
-    //     socket.current.on("getMessage", (data) => {
-    //         setArrivalMessage({
-    //             senderId: data.senderId,
-    //             text: data.text,
-    //             createdAt: Date.now()
-    //         });
-    //     });
-    // }, [])
+    useEffect(() => {
+        socket.current = io("ws://localhost:8900");
+        socket.current.on("getMessage", (message) => {
+            setArrivalMessage(message);
+        });
+    }, [])
 
-    // useEffect(() => {
+    useEffect(() => {
+        if (!arrivalMessage) return;
+        const newConversations = conversations.filter(c => c.chatId !== arrivalMessage.chatId);
 
-    // }, [arrivalMessage, currentChat])
+        console.log(newConversations);
+
+        const topChat = {
+            chatId: arrivalMessage.chatId,
+            chatUser: arrivalMessage.sender,
+            lastMessage: {
+                own: false,
+                text: arrivalMessage.text,
+                createdAt: Date.now()
+            },
+            unseen: {
+                own: true,
+                count: arrivalMessage.unseenCount
+            }
+        }
+
+        setConversations([topChat, ...newConversations]);
+
+        const newMessageData = {
+            conversationId: arrivalMessage.chatId,
+            senderId: arrivalMessage.sender.id,
+            text: arrivalMessage.text
+        }
+
+        if (currentChat && arrivalMessage.chatId === currentChat.chatId) {
+            setMessages([...messages, newMessageData])
+        }
+    }, [arrivalMessage])
+
+    useEffect(() => {
+        socket.current.emit("addUser", user.id);
+    }, [user]);
 
     useEffect(() => {
         const getConversations = async () => {
             try {
                 await axios.get(`/conversation/${user.id}`)
                 .then((res) => {
-                    console.log(res.data);
+                    // console.log(res.data);
                     setConversations(res.data);
                 })
             } catch (err) {
@@ -46,12 +76,13 @@ export default function Messenger() {
     }, [user]);
 
     useEffect(() => {
+        // console.log(currentChat);
         const getMessages = async () => {
             try {
-                console.log(currentChat.chatId);
+                // console.log(currentChat.chatId);
                 await axios.get('/message/' + currentChat.chatId). 
                 then((res) => {
-                    console.log(res.data);
+                    // console.log(res.data);
                     setMessages(res.data);
                 })
             } catch (err) {
@@ -63,8 +94,15 @@ export default function Messenger() {
         }
     }, [currentChat]);
 
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+      }, [messages]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         const message = {
             senderId: user.id,
             text: newMessage,
@@ -75,7 +113,76 @@ export default function Messenger() {
         .then((res) => {
             setMessages([...messages, res.data]);
         })
+        
+        const newConversations = conversations.filter((c) => c.chatId !== currentChat.chatId);
+        const newCurrentChat = {
+            chatId: currentChat.chatId,
+            chatUser: currentChat.chatUser,
+            lastMessage: {
+                own: true,
+                text: newMessage,
+                createdAt: Date.now()
+            },
+            unseen: {
+                own: false,
+                count: currentChat.unseen.count + 1
+            }
+        }        
+        
+        // await axios.put(`/conversation/unseen/${currentChat.chatId}`, {
+        //     unseen: {
+        //         userId: currentChat.chatUser.id,
+        //         count: currentChat.unseen.count + 1
+        //     }
+        // })
+
+
+        socket.current.emit("sendMessage", {
+            chatId: currentChat.chatId,
+            sender: {
+                id: user.id,
+                name: user.name,
+                profileImage: user.profileImage
+            },
+            receiverId: currentChat.chatUser.id,
+            text: newMessage,
+            unseenCount: currentChat.unseen.count + 1
+        })
+        
+        setCurrentChat(newCurrentChat);
+        setConversations([newCurrentChat, ...newConversations]);
         setNewMessage("");
+    }
+
+    const handleSetChat = async (c) => {
+        setCurrentChat(c);
+
+        if (c.unseen.count) {
+            const newConversations = conversations.map((con) => {
+                if (con.chatId === c.chatId) {
+                    return {
+                        chatId: con.chatId,
+                        chatUser: con.chatUser,
+                        lastMessage: con.lastMessage,
+                        unseen: {
+                            own: false,
+                            count: 0
+                        }
+                    }
+                } else {
+                    return con;
+                }
+            })
+            setConversations(newConversations);
+    
+            // await axios.put(`/conversation/unseen/${currentChat.chatId}`, {
+            //     unseen: {
+            //         userId: currentChat.chatUser.id,
+            //         count: 0
+            //     }
+            // })
+        }
+
     }
 
     return (
@@ -83,7 +190,7 @@ export default function Messenger() {
             <div className = "messenger-wrapper">
                 <div className = "conversation-list">
                     {conversations.map((c) => (
-                        <div onClick={() => setCurrentChat(c)}>
+                        <div onClick={() => handleSetChat(c)}>
                             <Conversation conversation = {c}/>
                         </div>
                     ))}                    
@@ -94,7 +201,7 @@ export default function Messenger() {
                             <>
                                 <div className="chatBoxTop">
                                     {messages.map((m) => (
-                                        <div>
+                                        <div ref={scrollRef}>
                                             <Message 
                                                 message={m} 
                                                 own={m.senderId === user.id} 
@@ -109,7 +216,6 @@ export default function Messenger() {
                                         placeholder="write something..."
                                         onChange={(e) => {setNewMessage(e.target.value)}}
                                         value={newMessage}
-                                        onSubmit
                                     ></textarea>
                                     <button className="chatSubmitButton" onClick={handleSubmit}>
                                         Send
