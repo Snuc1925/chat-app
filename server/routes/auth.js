@@ -13,6 +13,7 @@ router.post("/register", async (req, res) => {
             email: req.body.email,
             name: req.body.name,
             password: hashedPassword,
+            profileImage: req.body.profileImage,
             role: (req.body.role ? req.body.role : 'user')
         });
 
@@ -41,6 +42,7 @@ router.post("/login", async (req, res) => {
                 name: user.name,
                 email: user.email,
                 friends: user.friends,
+                friendRequests: user.friendRequests,
                 role: user.role,
                 profileImage: user.profileImage,
                 accessToken: token

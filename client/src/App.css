@@ -1,3 +1,31 @@
+:root {
+    --avatarSize: 60px;
+    --sidebar-width: 80px;
+    --n1: #cad0d8;
+    --n2: #476285;
+    --n3: #eaedf0;
+    --n4: #E5EFFF;
+    --n5: #DFE2E7;
+    --n6: #F3F5F6;
+    --n7: #F7F7F8;
+    --n8: #727272;
+
+    --fw1: 500;
+
+    --accept-button: rgb(16, 131, 238);
+    --accept-button-hover: rgb(4, 111, 211);
+}
+
+hr {
+    margin-right: 10px
+}
+
+button {
+    padding: 10px 15px;
+    font-weight: var(--fw1);
+    cursor: pointer;
+}
+
 .Avatar {
     width: 100px;
     height: 100px;

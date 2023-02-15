@@ -1,0 +1,34 @@
+.sidebarWrapper {
+    position: fixed;
+    width: var(--sidebar-width);
+    height: 100%;
+    background-color: aqua;
+}
+
+.sidebarWrapper > div {
+    cursor: pointer;
+    transition-delay: 20ms;
+}
+
+.sidebarWrapper > div:hover {
+    background-color: var(--n1);
+}
+
+.sidebarAvatar {
+    cursor: pointer;
+    padding-top: 10px;
+    padding-left: calc((100% - 60px) / 2);
+}
+
+.sidebarMessage {
+    cursor: pointer;
+    padding-top: 10px;
+    padding-left: calc((100% - 50px) / 2);
+}
+
+.sidebarContact {
+    cursor: pointer;
+    padding-top: 10px;
+    padding-left: calc((100% - 50px) / 2);
+}
+

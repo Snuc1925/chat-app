@@ -5,6 +5,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 import Message from '../../components/message/Message';
 import { io } from "socket.io-client"
 import axios from 'axios';
+import Sidebar from '../../components/sidebar/Sidebar';
 
 export default function Messenger() {
     const [messages, setMessages] = useState([]);
@@ -187,6 +188,7 @@ export default function Messenger() {
 
     return (
         <>
+            <Sidebar/>
             <div className = "messenger-wrapper">
                 <div className = "conversation-list">
                     {conversations.map((c) => (

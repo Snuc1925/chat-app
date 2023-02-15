@@ -1,0 +1,147 @@
+.friend-wrapper {
+    margin-left: var(--sidebar-width);
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    height: 100%;
+}
+
+.friend-add {
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.friend-add:hover {
+    background-color: var(--n5);
+}
+
+.friend-add-text {
+    padding-left: 10px;
+}
+
+.friends-list {
+    margin-top: 10px;
+}
+
+.friends-list-text {
+    font-weight: var(--fw1);
+    padding-left: 15px;
+    margin-bottom: 20px;
+}
+
+.friend-item {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.friend-item:hover {
+    background-color: var(--n6);
+}
+
+.friend-item-profile {
+    display: flex;
+    align-items: center;
+}
+
+.friend-item-name {
+    padding-left: 10px;
+}
+
+.friend-item-option {
+    margin-right: 10px;
+}
+
+.friend-requests-wrapper {
+    min-height: 600px;
+}
+
+.friend-requests-text {
+    font-weight: var(--fw1);
+    font-size: 25px;
+    margin: 10px auto 10px 10px;
+}
+
+.friend-requests-wrapper > div {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.friend-requests {
+    height: 100%;
+    background-color: var(--n5);
+    padding-top: 20px;
+}
+
+.friend-request-item {
+    display: flex;
+    justify-content: space-between;
+    background-color: #ffffff;
+    margin: 10px 10px;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.friend-request-item:hover {
+    background-color: var(--n6);
+}
+
+.friend-request-name {
+    padding-left: 10px;
+}
+
+.friend-request-profile {
+    display: flex;
+    align-items: center;
+}
+
+.friend-request-handle {
+    display: flex;
+    align-items: center;
+}
+
+.friend-request-button {
+    border: 0px;
+    padding: 10px 15px;
+    font-size: 15px;
+    margin-left: 10px;
+    border-radius: 2px;
+}
+
+.friend-request-accept {
+    background-color: var(--accept-button);
+    color: #ffffff;
+    transition-delay: 20ms;
+}
+
+.friend-request-accept:hover {
+    background-color: var(--accept-button-hover);
+}
+
+.friend-request-delete {
+    transition-delay: 20ms;
+}
+
+.friend-request-delete:hover {
+    background-color: #d8d5d5;
+}
+
+.friend-request-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.friend-request-time {
+    display: flex;
+    flex-direction: row-reverse;
+    margin-bottom: 15px;
+    color: var(--n8);
+}

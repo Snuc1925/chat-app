@@ -1,0 +1,106 @@
+.newFriendModal {
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;   
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modalContent {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%;
+}
+
+.modalTop {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.modalTopClose {
+    cursor: pointer;
+}
+
+.modalTopClose:hover {
+    background-color: #888;
+}
+
+.modalMain {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.modalHandle {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.modalHandleButton {
+    border: 0px;
+    padding: 10px 15px;
+    font-size: 15px;
+    margin-left: 10px;
+    border-radius: 2px;
+}
+
+.modalSearch {
+    background-color: var(--accept-button);
+    color: #ffffff;
+    transition-delay: 20ms;
+}
+
+.modalSearch:hover {
+    background-color: var(--accept-button-hover);
+}
+
+.modalCancel {
+    transition-delay: 20ms;
+}
+
+.modalCancel:hover {
+    background-color: #d8d5d5;
+}
+
+.modalError {
+    color: red;
+}
+
+.searchUserProfile {
+    display: flex;
+    align-items: center;
+}
+
+.searchUserItem {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.searchUserItem:hover {
+    background-color: var(--n6);
+}
+
+.searchUserName {
+    padding-left: 10px;
+}
+
+.requestButton {
+    margin-right: 20px;
+    border-color: var(--accept-button);
+    border-width: thin;
+    color: var(--accept-button);
+    display: flex;
+    align-items: center;
+}
