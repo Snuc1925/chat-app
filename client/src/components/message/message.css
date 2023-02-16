@@ -1,0 +1,28 @@
+.message {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
+    /* background-color: var(--background-chat); */
+}
+
+.messageText {
+    border-radius: 20%;
+    max-width: 300px;
+    padding: 10px;
+    margin: auto 10px;
+    background-color: rgb(231, 231, 231);
+}
+
+.message.own {
+    flex-direction: row-reverse;
+}
+
+.message.own .messageText{
+    /* background-color: rgb(245, 241, 241); */
+    background-color: #1877f2;
+    color: white;
+}
+
+

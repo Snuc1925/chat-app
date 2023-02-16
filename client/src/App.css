@@ -10,10 +10,13 @@
     --n7: #F7F7F8;
     --n8: #727272;
 
+    --text-secondary: #7589a3;
+
     --fw1: 500;
 
     --accept-button: rgb(16, 131, 238);
     --accept-button-hover: rgb(4, 111, 211);
+    --background-chat: #bab9bb;
 }
 
 hr {
@@ -39,13 +42,13 @@ button {
 
 
 /* Message.jsx */
-.message {
+/* .message {
     display: flex;
     flex-direction: column;
     margin-top: 20px;
-  }
+} */
   
-.messageTop{
+/* .messageTop{
     display: flex;
 }
 
@@ -60,7 +63,6 @@ button {
 .messageText{
     padding: 10px;
     border-radius: 20px;
-    /* background-color: #1877f2; */
     background-color: rgb(245, 241, 241);
     color: black;
     max-width: 300px;
@@ -73,13 +75,8 @@ button {
 
 .message.own{
     align-items: flex-end;
-}
+} */
 
-.message.own .messageText{
-    /* background-color: rgb(245, 241, 241); */
-    background-color: #1877f2;
-    color: white;
-}
 
 
 /* Messenger */

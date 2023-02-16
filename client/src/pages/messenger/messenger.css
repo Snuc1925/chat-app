@@ -1,0 +1,79 @@
+:root {
+    --chatBox-top: 50px;
+    --chatBox-bottom: 30px;
+}
+
+.messenger-wrapper {
+    margin-left: var(--sidebar-width);
+}
+
+.main-conversation {
+    height: 100vh;
+    position: relative;
+}
+
+.chatBoxTop {
+    /* height: var(--chatBox-top) */
+    display: flex; 
+    padding: 10px;
+}
+
+.chatInfo {
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: auto 5px;
+}
+
+.chatInfoName {
+    padding-top: 5px;
+    font-weight: var(--fw1);
+}
+
+.chatInfoActive {
+    padding-bottom: 5px;
+    color: var(--text-secondary);
+}
+
+.chatBoxMain {
+    /* min-height: 100vh; */
+    background-color: var(--background-chat);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    /* scroll-behavior: auto; */
+    /* height: calc(100vh-var(--chatBox-top) - var(--chatBox-bottom)); */
+    /* height: calc(100%-120px); */
+    /* height: 70%; */
+    height: -moz-calc(100% - 170px);
+    height: -webkit-calc(100% - 170px);
+    height: calc(100% - 170px);
+
+    overflow-y: scroll;
+}
+
+.chatBoxBottom {
+    /* height: var(--chatBox-bottom) */
+    display: flex;
+    height: 50px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.chatMessageInput {
+    width: 100%;
+    border: none;
+    /* outline-color: ; */
+    resize: none;
+}
+
+.chatSubmitButton {
+    background-color: var(--accept-button);
+    border: none;
+    color: white;
+}
+
+.conversation-list {
+    padding-top: 20px;
+}
+

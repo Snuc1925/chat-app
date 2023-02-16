@@ -12,4 +12,6 @@ root.render(
   </React.StrictMode>
 );
 
+
+// https://bytebytego.com/courses/system-design-interview/design-a-chat-system
 // How to get Image optimally in client side?

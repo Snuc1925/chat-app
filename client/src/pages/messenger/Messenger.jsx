@@ -6,6 +6,132 @@ import Message from '../../components/message/Message';
 import { io } from "socket.io-client"
 import axios from 'axios';
 import Sidebar from '../../components/sidebar/Sidebar';
+import LoadImage from '../../service/LoadImage';
+
+import "./messenger.css"
+
+const cvs = [
+    {
+        chatId: "1",
+        chatUser: {
+            id: "id1",
+            name: "Nghĩa",
+            profileImage: "liumen"
+        },
+        lastMessage: {
+            own: true,
+            text: "Hello!",
+            createdAt: (Date.now() - 20 * 60 * 1000)
+        }
+    },
+    {
+        chatId: "2",
+        chatUser: {
+            id: "id2",
+            name: "Nam",
+            profileImage: "defaultAvatar"
+        },
+        lastMessage: {
+            own: false,
+            text: "Hi!",
+            createdAt: (Date.now() - 1 * 60 * 1000)
+        }
+    },
+    {
+        chatId: "3",
+        chatUser: {
+            id: "id3",
+            name: "Mạnh",
+            profileImage: "captain"
+        },
+        lastMessage: {
+            own: null,
+            text: null,
+            createdAt: null,
+        }
+    },
+]
+
+const messagesData = [
+    {
+        conversationId: 1,
+        senderId: 1,
+        text: "Hello",
+        own: true,
+    },
+    {
+        conversationId: 2,
+        senderId: 2,
+        text: "Hi",
+        own: false,
+    },
+    {
+        conversationId: 2,
+        senderId: 2,
+        text: "Hi",
+        own: false,
+    },
+    {
+        conversationId: 2,
+        senderId: 2,
+        text: "Hiiiii",
+        own: true,
+    },
+    {
+        conversationId: 2,
+        senderId: 2,
+        text: "Hiiiii",
+        own: true,
+    },
+    {
+        conversationId: 2,
+        senderId: 2,
+        text: "Hiiiii",
+        own: true,
+    },
+    {
+        conversationId: 2,
+        senderId: 2,
+        text: "hello",
+        own: true,
+    },
+    {
+        conversationId: 2,
+        senderId: 2,
+        text: "Hi",
+        own: false,
+    },
+    {
+        conversationId: 2,
+        senderId: 2,
+        text: "Hi",
+        own: false,
+    },
+    {
+        conversationId: 2,
+        senderId: 2,
+        text: "Hi",
+        own: false,
+    },
+    {
+        conversationId: 2,
+        senderId: 2,
+        text: "Hi",
+        own: false,
+    },
+    {
+        conversationId: 2,
+        senderId: 2,
+        text: "1",
+        own: true,
+    },
+    {
+        conversationId: 2,
+        senderId: 2,
+        text: "Hi",
+        own: true,
+    },
+]
 
 export default function Messenger() {
     const [messages, setMessages] = useState([]);
@@ -13,16 +139,16 @@ export default function Messenger() {
     const [arrivalMessage, setArrivalMessage] = useState(null);
     const [conversations, setConversations] = useState([]);
     const [currentChat, setCurrentChat] = useState(null);
-    const socket = useRef();
+    // const socket = useRef();
     const { user } = useContext(AuthContext);
     const scrollRef = useRef();
     
-    useEffect(() => {
-        socket.current = io("ws://localhost:8900");
-        socket.current.on("getMessage", (message) => {
-            setArrivalMessage(message);
-        });
-    }, [])
+    // useEffect(() => {
+    //     socket.current = io("ws://localhost:8900");
+    //     socket.current.on("getMessage", (message) => {
+    //         setArrivalMessage(message);
+    //     });
+    // }, [])
 
     useEffect(() => {
         if (!arrivalMessage) return;
@@ -57,23 +183,25 @@ export default function Messenger() {
         }
     }, [arrivalMessage])
 
-    useEffect(() => {
-        socket.current.emit("addUser", user.id);
-    }, [user]);
+    // useEffect(() => {
+    //     socket.current.emit("addUser", user.id);
+    // }, [user]);
 
     useEffect(() => {
-        const getConversations = async () => {
-            try {
-                await axios.get(`/conversation/${user.id}`)
-                .then((res) => {
-                    // console.log(res.data);
-                    setConversations(res.data);
-                })
-            } catch (err) {
-                console.log(err);
-            }
-        }
-        getConversations();
+        // const getConversations = async () => {
+        //     try {
+        //         await axios.get(`/conversation/${user.id}`)
+        //         .then((res) => {
+        //             // console.log(res.data);
+        //             setConversations(res.data);
+        //         })
+        //     } catch (err) {
+        //         console.log(err);
+        //     }
+        // }
+        // getConversations();
+        setMessages(messagesData);
+        setConversations(cvs);
     }, [user]);
 
     useEffect(() => {
@@ -129,26 +257,18 @@ export default function Messenger() {
                 count: currentChat.unseen.count + 1
             }
         }        
-        
-        // await axios.put(`/conversation/unseen/${currentChat.chatId}`, {
-        //     unseen: {
-        //         userId: currentChat.chatUser.id,
-        //         count: currentChat.unseen.count + 1
-        //     }
+
+        // socket.current.emit("sendMessage", {
+        //     chatId: currentChat.chatId,
+        //     sender: {
+        //         id: user.id,
+        //         name: user.name,
+        //         profileImage: user.profileImage
+        //     },
+        //     receiverId: currentChat.chatUser.id,
+        //     text: newMessage,
+        //     unseenCount: currentChat.unseen.count + 1
         // })
-
-
-        socket.current.emit("sendMessage", {
-            chatId: currentChat.chatId,
-            sender: {
-                id: user.id,
-                name: user.name,
-                profileImage: user.profileImage
-            },
-            receiverId: currentChat.chatUser.id,
-            text: newMessage,
-            unseenCount: currentChat.unseen.count + 1
-        })
         
         setCurrentChat(newCurrentChat);
         setConversations([newCurrentChat, ...newConversations]);
@@ -198,17 +318,27 @@ export default function Messenger() {
                     ))}                    
                 </div>
                 <div className = "main-conversation">
-                    { currentChat
+                    { !currentChat
                         ? 
                             <>
                                 <div className="chatBoxTop">
+                                    <div className="chatInfoImage">
+                                        <LoadImage size = "60px" path="liumen"/>
+                                    </div>
+                                    <div className="chatInfo">
+                                        <div className="chatInfoName">Mạnh</div>
+                                        <div className="chatInfoActive">Active 3m ago</div>
+                                    </div>
+                                </div>
+                                <div className="chatBoxMain">
                                     {messages.map((m) => (
                                         <div ref={scrollRef}>
-                                            <Message 
+                                            {/* <Message 
                                                 message={m} 
                                                 own={m.senderId === user.id} 
                                                 sender={m.senderId === user.id ? user : currentChat.chatUser} 
-                                            />
+                                            /> */}
+                                            <Message message={m}/>
                                         </div>
                                     ))}
                                 </div>
@@ -229,7 +359,7 @@ export default function Messenger() {
                     }
                 </div>
                 <div className = "messenger-right">
-                    
+                    Hello
                 </div>
             </div>
         </>
