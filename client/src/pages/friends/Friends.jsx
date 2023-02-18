@@ -13,45 +13,6 @@ import { format } from "timeago.js";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 
-// const frData = [
-//     {
-//         id: "1",
-//         name: "Mai Manh",
-//         profileImage: "defaultAvatar"
-//     },
-//     {
-//         id: "2",
-//         name: "Messi",
-//         profileImage: "defaultAvatar"
-//     },
-//     {
-//         id: "3",
-//         name: "Neymar",
-//         profileImage: "defaultAvatar"
-//     },
-// ]
-
-// const frList = [
-//     {
-//         id: "10",
-//         name:  "Pedri",
-//         profileImage: "defaultAvatar",
-//         createdAt: "2020-02-14",
-//     },
-//     {
-//         id: "11",
-//         name:  "Alba",
-//         profileImage: "defaultAvatar",
-//         createdAt: "2020-02-14",
-//     },
-//     {
-//         id: "12",
-//         name:  "Gavi",
-//         profileImage: "defaultAvatar",
-//         createdAt: "2020-02-14",
-//     },
-// ]
-
 import { io } from "socket.io-client"
 
 export default function Friends() {
@@ -110,7 +71,7 @@ export default function Friends() {
         }
 
         fetchData();
-    }, [user]);
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {

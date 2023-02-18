@@ -11,7 +11,7 @@ TimeAgo.addDefaultLocale(en);
 const timeAgo = new TimeAgo('en-US');
 
 export default function Conversation({ conversation }) {
-    console.log(conversation.lastMessage);
+    // console.log(conversation.lastMessage);
     return (
         <div className="conversation">
             <div className="conversation-left">
@@ -36,7 +36,7 @@ export default function Conversation({ conversation }) {
                 {
                     (conversation.lastMessage.own !== null)
                     ?
-                        <span>{timeAgo.format(conversation.lastMessage.createdAt, 'mini-minute-now')}</span>
+                        <span>{timeAgo.format(new Date(conversation.lastMessage.createdAt).getTime(), 'mini-minute-now')}</span>
                     :
                         <span></span>
                 }
