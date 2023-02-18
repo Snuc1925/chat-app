@@ -3,14 +3,42 @@ const Conversation = require('../models/Conversation');
 const User = require('../models/User');
 const Message = require('../models/Message');
 
-router.post('/', async (req, res) => {
-    const newConversation = new Conversation({
-        members: [req.body.firstUser, req.body.secondUser],
-    })
-
+router.get('/', async (req, res) => {
     try {
-        const savedConversation = await newConversation.save();
-        res.status(200).json(savedConversation);
+        const conversations = await Conversation.find({});
+        res.status(200).json(conversations);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+})
+
+router.post('/', async (req, res) => {
+    
+    try {
+        const newConversation = new Conversation({
+            members: [req.body.firstUser, req.body.secondUser],
+        })
+        const data = await newConversation.save()
+        .then(async (savedConversation) => {
+            const firstMessage = new Message({
+                conversationId: savedConversation._id,
+                senderId: null,
+                text: null
+            })
+            await firstMessage.save();
+            return savedConversation;
+        })
+        
+        res.status(200).json(data);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+})
+
+router.delete('/:id',  async (req, res) => {
+    try {
+        await Conversation.findByIdAndDelete(req.params.id);
+        res.status(200).json("Conversation deleted successfully!");
     } catch (err) {
         res.status(500).json(err);
     }
@@ -57,15 +85,16 @@ router.get('/:userId', async (req, res) => {
                                         name: friend.name,
                                         profileImage: friend.profileImage
                                     },
-                                    lastMessage: {
-                                        own: (lastMessage.senderId === req.params.userId),
-                                        text: (lastMessage.text),
-                                        createdAt: lastMessage.createdAt
-                                    },
-                                    unseen: {
-                                        own: (c.unseen.userId === req.params.userId),
-                                        count: c.unseen.count
-                                    }
+                                    lastMessage:
+                                            {
+                                                own: (lastMessage.senderId === req.params.userId),
+                                                text: (lastMessage.text),
+                                                createdAt: lastMessage.createdAt
+                                            }
+                                    // unseen: {
+                                    //     own: (c.unseen.userId === req.params.userId),
+                                    //     count: c.unseen.count
+                                    // }
                                 }
                                 return cInfo;
                             })

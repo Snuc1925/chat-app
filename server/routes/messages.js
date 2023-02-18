@@ -11,6 +11,15 @@ router.post('/', async (req, res) => {
     }
 })
 
+router.delete('/:messageId', async (req, res) => {
+    try {
+        await Message.findByIdAndDelete(req.params.messageId);
+        res.status(200).json("Message deleted successfully");
+    } catch (err) {
+        res.status(500).json(err);
+    }
+})
+
 router.get('/:conversationId', async (req, res) => {
     try {
         const messages = await Message.find({
